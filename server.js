@@ -14,10 +14,21 @@ const guessedByIp = {};
 const guessesByIp = {};
 
 function resetUserData(addr) {
-  uessedByIp[addr] = new Map();
+  guessedByIp[addr] = new Map();
   guessesByIp[addr] = [];
   answersByIp[addr] = pickRandomWord();
 }
+
+const RULES = `
+Welcome to wordle game.
+
+Commands:
+/giveup - get the answer and generate new word
+/new - generate new word
+/<your 5 letter guess> - guess the answer
+
+If you guess correctly, new word will be generated automatically
+`;
 
 http
   .createServer(function (request, response) {
@@ -41,16 +52,23 @@ http
 
     const guess = request.url.slice(1).trim().toLowerCase();
 
-    if (guess === "reset") {
+    if (guess === "") {
+      response.writeHead(200);
+      response.end(`${RULES}\n`);
+      return;
+    }
+
+    if (guess === "new") {
       resetUserData();
       response.writeHead(200);
-      response.end("data has been reset\n");
+      response.end("\nnew word was generated\n");
       return;
     }
 
     if (guess === "giveup") {
+      resetUserData();
       response.writeHead(200);
-      response.end(`\nit was "${answersByIp[addr]}"\n`);
+      response.end(`\nthe word was "${answersByIp[addr]}"\n`);
 
       return;
     }
