@@ -135,11 +135,11 @@ http
       finalMessage += formatGuess(g);
     }
     if (guess !== answersByIp[addr] && guesses.length === 6) {
-      resetUserData(addr);
       finalMessage += `\nOut of guesses :( The word was "${answersByIp[addr]}"\nNew word was generated\n`;
-    } else if (guess === answersByIp[addr]) {
       resetUserData(addr);
+    } else if (guess === answersByIp[addr]) {
       finalMessage += "\nWell done!\n";
+      resetUserData(addr);
     } else {
       finalMessage += `\nGuesses left: ${6 - guesses.length}\n`;
     }
