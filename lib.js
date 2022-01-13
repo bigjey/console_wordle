@@ -12,25 +12,35 @@ const y = (s) => `\x1b[30m\x1b[43m ${s} \x1b[0m`;
 const w = (s) => `\x1b[30m\x1b[47m ${s} \x1b[0m`;
 
 function processGuess(guess, answer) {
-  const result = [];
+  const result = new Array(5);
+  const counts = {};
+
+  for (let i = 0; i < 5; i++) {
+    result[i] = {
+      letter: guess[i],
+      match: "none",
+    };
+
+    if (counts[answer[i]] === undefined) {
+      counts[answer[i]] = 0;
+    }
+    counts[answer[i]]++;
+  }
 
   for (let i = 0; i < 5; i++) {
     const letter = guess[i];
-
-    let match = "none";
-
-    if (guess[i] === answer[i]) {
-      match = "exact";
-    } else if (answer.indexOf(guess[i]) !== -1) {
-      match = "partial";
+    if (guess[i] === answer[i] && counts[letter]) {
+      counts[letter]--;
+      result[i].match = "exact";
     }
+  }
 
-    const r = {
-      letter,
-      match,
-    };
-
-    result.push(r);
+  for (let i = 0; i < 5; i++) {
+    const letter = guess[i];
+    if (guess[i] !== answer[i] && counts[letter]) {
+      counts[letter]--;
+      result[i].match = "partial";
+    }
   }
 
   return result;

@@ -1,5 +1,5 @@
 const readline = require("readline");
-const { pickRandomWord } = require("./lib");
+const { pickRandomWord, LETTERS, w, g, y, processGuess } = require("./lib");
 
 let currentWord = pickRandomWord();
 let guessedLetters = new Map();
@@ -22,30 +22,7 @@ rl.on("line", (line) => {
   if (!word.match(`\\w\{${WORD_LENGTH},${WORD_LENGTH}\}`)) {
     console.warn(`error: guess must have excatly ${WORD_LENGTH} letters`);
   } else {
-    const guessResult = [];
-
-    for (let i = 0; i < WORD_LENGTH; i++) {
-      const letter = word[i];
-
-      guessedLetters.set(letter);
-      let match = "none";
-
-      if (word[i] === currentWord[i]) {
-        match = "exact";
-      } else if (currentWord.indexOf(word[i]) !== -1) {
-        match = "partial";
-      }
-
-      const r = {
-        letter: letter.toUpperCase(),
-        match,
-      };
-
-      guessResult.push(r);
-
-      guessedLetters.set(letter, r);
-    }
-    process.stdout.write("\n");
+    const guessResult = processGuess(word, currentWord);
 
     for (const l of LETTERS) {
       const r = guessedLetters.get(l);

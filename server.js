@@ -61,6 +61,7 @@ http
   .createServer(function (request, response) {
     let addr =
       request.headers["x-forwarded-for"] || request.socket.remoteAddress;
+
     if (!addr) {
       response.writeHead(500);
       response.end("can't identify session\n");
@@ -75,6 +76,7 @@ http
     if (answersByIp[addr] === undefined) {
       answersByIp[addr] = pickRandomWord();
     }
+
     const guessed = addr ? guessedByIp[addr] : null;
     const guesses = addr ? guessesByIp[addr] : [];
 
@@ -114,6 +116,7 @@ http
     }
 
     const result = processGuess(guess, answersByIp[addr]);
+
     guesses.push(result);
     for (const r of result) {
       if (!guessed.has(r.letter) || r.match === "exact") {
@@ -131,9 +134,14 @@ http
       finalMessage += `\n`;
       finalMessage += formatGuess(g);
     }
-    if (guess === answersByIp[addr]) {
+    if (guess !== answersByIp[addr] && guesses.length === 6) {
+      resetUserData(addr);
+      finalMessage += `\nOut of guesses :( The word was "${answersByIp[addr]}"\nNew word was generated\n`;
+    } else if (guess === answersByIp[addr]) {
       resetUserData(addr);
       finalMessage += "\nWell done!\n";
+    } else {
+      finalMessage += `\nGuesses left: ${6 - guesses.length}\n`;
     }
 
     response.writeHead(200);
