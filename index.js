@@ -57,8 +57,9 @@ rl.on("line", (line) => {
 
     process.stdout.write("\n");
     process.stdout.write("\n");
+
     if (word === currentWord) {
-      console.log("fuck yeah! good job!\n");
+      console.log("hell yeah! good job!\n");
       rl.close();
     }
   }
