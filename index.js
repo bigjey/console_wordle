@@ -1,22 +1,15 @@
 const readline = require("readline");
-const WORDS = require("./words");
-
-// prettier-ignore
-const LETTERS = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u', 'v','w','x','y','z'];
+const { pickRandomWord } = require("./lib");
 
 let currentWord = pickRandomWord();
 let guessedLetters = new Map();
-
-function pickRandomWord() {
-  return WORDS[Math.floor(Math.random() * WORDS.length)];
-}
 
 console.clear();
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: "guess > ",
+  prompt: "> ",
 });
 
 rl.prompt();
@@ -96,7 +89,3 @@ rl.on("line", (line) => {
 }).on("close", () => {
   process.exit(0);
 });
-
-const g = (s) => `\x1b[30m\x1b[42m ${s} \x1b[0m`;
-const y = (s) => `\x1b[30m\x1b[43m ${s} \x1b[0m`;
-const w = (s) => `\x1b[30m\x1b[47m ${s} \x1b[0m`;

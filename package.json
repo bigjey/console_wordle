@@ -1,0 +1,18 @@
+{
+  "name": "wordle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bigjey/console_wordle.git",
+  "author": "Denys <bigjey> Izhetskyi <mail.bigjey@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "node",
+    "heroku"
+  ]
+}
