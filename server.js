@@ -32,7 +32,6 @@ If you guess correctly, new word will be generated automatically
 
 http
   .createServer(function (request, response) {
-    console.log("h", JSON.stringify(request.headers));
     let addr =
       request.headers["x-forwarded-for"] || request.socket.remoteAddress;
     if (!addr) {
@@ -40,7 +39,6 @@ http
       response.end("can't identify session\n");
       return;
     }
-    console.log("addr", addr);
     if (guessedByIp[addr] === undefined) {
       guessedByIp[addr] = new Map();
     }
@@ -62,14 +60,14 @@ http
     }
 
     if (guess === "new") {
-      resetUserData();
+      resetUserData(addr);
       response.writeHead(200);
       response.end("\nnew word was generated\n");
       return;
     }
 
     if (guess === "giveup") {
-      resetUserData();
+      resetUserData(addr);
       response.writeHead(200);
       response.end(`\nthe word was "${answersByIp[addr]}"\n`);
 
@@ -101,7 +99,7 @@ http
       finalMessage += formatGuess(g);
     }
     if (guess === answersByIp[addr]) {
-      resetUserData();
+      resetUserData(addr);
       finalMessage += "\nWell done!\n";
     }
 
