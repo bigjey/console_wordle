@@ -32,13 +32,13 @@ If you guess correctly, new word will be generated automatically
 
 http
   .createServer(function (request, response) {
-    const addr = request.socket.remoteAddress;
+    let addr =
+      request.headers["X-Forwarded-For"] || request.socket.remoteAddress;
     if (!addr) {
       response.writeHead(500);
       response.end("can't identify session\n");
       return;
     }
-    console.log("addr", addr);
     if (guessedByIp[addr] === undefined) {
       guessedByIp[addr] = new Map();
     }
