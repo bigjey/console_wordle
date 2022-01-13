@@ -38,6 +38,7 @@ http
       response.end("can't identify session\n");
       return;
     }
+    console.log("addr", addr);
     if (guessedByIp[addr] === undefined) {
       guessedByIp[addr] = new Map();
     }
