@@ -5,6 +5,9 @@ const {
   pickRandomWord,
   formatGuess,
   formatGuessedLetters,
+  g,
+  y,
+  w,
 } = require("./lib");
 
 const PORT = process.env.PORT || 4321;
@@ -19,13 +22,37 @@ function resetUserData(addr) {
   answersByIp[addr] = pickRandomWord();
 }
 
-const RULES = `
+const WELCOME = `
 Welcome to wordle game.
 
-Commands:
-/giveup - get the answer and generate new word
-/new - generate new word
-/<your 5 letter guess> - guess the answer
+Commands: 
+/rules           - game rules and examples
+/new             - generate new word
+/giveup          - get the answer and generate new word
+/<5 letter word> - guess the answer
+
+Command Example: https://curl-wordle.herokuapp.com/rules
+`;
+
+const RULES = `
+Rules:
+
+Guess the 5-letter word.
+
+Each guess must be a valid 5 letter word.
+
+After each guess, the color of the tiles will change to show how close your guess was to the word.
+
+Examples:
+    
+The letter W is in the word and in the correct spot.
+${g("W")} E A R Y
+    
+The letter I is in the word but in the wrong spot.
+ P ${y("P")} I L L S
+    
+The letter U is not in the word in any spot.
+ V A G ${w("U")} E
 
 If you guess correctly, new word will be generated automatically
 `;
@@ -55,7 +82,13 @@ http
 
     if (guess === "") {
       response.writeHead(200);
-      response.end(`${RULES}\n`);
+      response.end(`${WELCOME}`);
+      return;
+    }
+
+    if (guess === "rules") {
+      response.writeHead(200);
+      response.end(`${RULES}`);
       return;
     }
 
@@ -74,7 +107,7 @@ http
       return;
     }
 
-    if (!guess.match(/[a-zA-Z]{5}/)) {
+    if (!guess.match(/^[a-zA-Z]{5,5}$/)) {
       response.writeHead(400);
       response.end("must be a 5 letters word");
       return;
