@@ -34,7 +34,7 @@ http
   .createServer(function (request, response) {
     console.log("h", JSON.stringify(request.headers));
     let addr =
-      request.headers["X-Forwarded-For"] || request.socket.remoteAddress;
+      request.headers["x-forwarded-for"] || request.socket.remoteAddress;
     if (!addr) {
       response.writeHead(500);
       response.end("can't identify session\n");
