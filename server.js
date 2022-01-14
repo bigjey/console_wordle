@@ -118,6 +118,8 @@ curl https://curl-wordle.herokuapp.com/candy
       response.end(`
 The word was "${answersByIp[addr]}"
 
+New word was generated
+
 You can submit your guess like this:
 curl https://curl-wordle.herokuapp.com/candy
 
