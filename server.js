@@ -25,13 +25,18 @@ function resetUserData(addr) {
 const WELCOME = `
 Welcome to wordle game.
 
-Commands: 
+The goal is to guess a 5-letter word.
+
+You can submit your guess like this:
+curl https://curl-wordle.herokuapp.com/candy
+
+Other commands: 
 /rules           - game rules and examples
 /new             - generate new word
 /giveup          - get the answer and generate new word
-/<5 letter word> - guess the answer
 
-Command Example: https://curl-wordle.herokuapp.com/rules
+Command usage example:
+curl https://curl-wordle.herokuapp.com/rules
 `;
 
 const RULES = `
