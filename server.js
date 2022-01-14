@@ -107,6 +107,7 @@ New word was generated
 
 You can submit your guess like this:
 curl https://curl-wordle.herokuapp.com/candy
+
 `);
       return;
     }
@@ -119,6 +120,7 @@ The word was "${answersByIp[addr]}"
 
 You can submit your guess like this:
 curl https://curl-wordle.herokuapp.com/candy
+
 `);
 
       return;
