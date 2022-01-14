@@ -102,21 +102,31 @@ http
     if (guess === "new") {
       resetUserData(addr);
       response.writeHead(200);
-      response.end("\nnew word was generated\n");
+      response.end(`
+New word was generated
+
+You can submit your guess like this:
+curl https://curl-wordle.herokuapp.com/candy
+`);
       return;
     }
 
     if (guess === "giveup") {
       resetUserData(addr);
       response.writeHead(200);
-      response.end(`\nthe word was "${answersByIp[addr]}"\n`);
+      response.end(`
+The word was "${answersByIp[addr]}"
+
+You can submit your guess like this:
+curl https://curl-wordle.herokuapp.com/candy
+`);
 
       return;
     }
 
     if (!guess.match(/^[a-zA-Z]{5,5}$/)) {
       response.writeHead(400);
-      response.end("must be a 5 letters word");
+      response.end("Guess must be a 5 letters word\n");
       return;
     }
 
